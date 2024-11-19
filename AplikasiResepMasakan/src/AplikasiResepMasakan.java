@@ -371,7 +371,7 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
         }
     }
 
- private void editData() {
+ private void editData() { //method untuk mengedit data
         int selectedRow = tableMasakan.getSelectedRow();
         if (selectedRow != -1) {
             String id = tableMasakan.getValueAt(selectedRow, 0).toString();
