@@ -414,7 +414,7 @@ private void hapusData() { //method untuk menghapus data
         }
     }
 
-private void loadData() {
+private void loadData() { //method untuk memuat data
         tableModel.setRowCount(0); // Clear existing data
         try {
             String sql = "SELECT * FROM resep";
