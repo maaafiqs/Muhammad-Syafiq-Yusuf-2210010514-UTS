@@ -350,7 +350,7 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
     private javax.swing.JTextField txtNamaMasakan;
     private javax.swing.JTextField txtTeknikMemasak;
     // End of variables declaration//GEN-END:variables
- private void tambahData() {
+ private void tambahData() { //method untuk menambahkan data kedalam database
         String nama = txtNamaMasakan.getText();
         String jenis = txtJenisMasakan.getText();
         String bahan = txtBahanMasakan.getText();
