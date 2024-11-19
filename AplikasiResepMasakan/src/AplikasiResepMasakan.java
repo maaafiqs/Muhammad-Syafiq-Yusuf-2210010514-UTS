@@ -5,6 +5,10 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
 
 /**
@@ -60,6 +64,7 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
         txtCari = new javax.swing.JTextField();
         btnCari = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
+        btnSimpan = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -174,6 +179,13 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("Cari resep masakan yang ingin anda cari");
 
+        btnSimpan.setText("Simpan Resep");
+        btnSimpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -193,7 +205,9 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(btnHapus)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnUlang))
+                                .addComponent(btnUlang)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnSimpan))
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(jPanel2Layout.createSequentialGroup()
                                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -212,7 +226,7 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
                                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(50, 50, 50)
                                         .addComponent(txtNamaMasakan, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -248,7 +262,8 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
                     .addComponent(btnEdit)
                     .addComponent(btnHapus)
                     .addComponent(btnUlang)
-                    .addComponent(jLabel6))
+                    .addComponent(jLabel6)
+                    .addComponent(btnSimpan))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCari)
@@ -325,6 +340,10 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
         cariData(); //mencari resep masakan didalam database resep makanan
     }//GEN-LAST:event_btnCariActionPerformed
 
+    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
+        simpanKeFile(); //menyimpan resep masakan kedalam bentuk file .txt
+    }//GEN-LAST:event_btnSimpanActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -364,6 +383,7 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
     private javax.swing.JButton btnCari;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnHapus;
+    private javax.swing.JButton btnSimpan;
     private javax.swing.JButton btnTambah;
     private javax.swing.JButton btnUlang;
     private javax.swing.JLabel jLabel1;
@@ -495,5 +515,38 @@ private void cariData() { //method untuk mencari sebuah resep dari dalam databas
         JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
     }
 } 
- 
+
+private void simpanKeFile() { //method untuk menyimpan data menjadi file .txt
+    try {
+        // Pilih lokasi untuk menyimpan file
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Pilih lokasi untuk menyimpan file");
+        int userSelection = fileChooser.showSaveDialog(this);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            // Menyimpan file
+            File fileToSave = fileChooser.getSelectedFile();
+            BufferedWriter writer = new BufferedWriter(new FileWriter(fileToSave));
+
+            // Menulis header kolom tabel
+            writer.write("No\tNama Masakan\tJenis Masakan\tBahan Masakan\tTeknik Memasak\n");
+
+            // Menulis data dari tabel
+            for (int i = 0; i < tableMasakan.getRowCount(); i++) {
+                writer.write(tableMasakan.getValueAt(i, 0) + "\t"
+                        + tableMasakan.getValueAt(i, 1) + "\t"
+                        + tableMasakan.getValueAt(i, 2) + "\t"
+                        + tableMasakan.getValueAt(i, 3) + "\t"
+                        + tableMasakan.getValueAt(i, 4) + "\n");
+            }
+
+            // Menutup writer
+            writer.close();
+            JOptionPane.showMessageDialog(this, "Data berhasil disimpan.");
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+    }
+}
+
 }
