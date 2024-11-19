@@ -431,7 +431,7 @@ private void loadData() { //method untuk memuat data
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
     }
-
+//method untuk mereset form
  private void resetForm() {
         txtNamaMasakan.setText("");
         txtJenisMasakan.setText("");
