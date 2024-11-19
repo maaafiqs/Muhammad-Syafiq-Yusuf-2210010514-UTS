@@ -27,7 +27,7 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Database connection error: " + e.getMessage());
         }
         tableModel = (DefaultTableModel) tableMasakan.getModel();
-        loadData(); // Load initial data from the database
+        loadData(); // Memuat data dari database
     }
 
     /**
@@ -268,7 +268,7 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         btnTambah.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                tambahData();
+                tambahData(); //untuk menambahkan data kedalam database
             }
         });
     }//GEN-LAST:event_btnTambahActionPerformed
@@ -276,7 +276,7 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         btnEdit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                editData();
+                editData(); //untuk mengedit data dari database
             }
         });
     }//GEN-LAST:event_btnEditActionPerformed
@@ -284,7 +284,7 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
          btnHapus.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                hapusData();
+                hapusData(); //untuk menghapus data dari database
             }
         });
 
@@ -292,7 +292,7 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void btnUlangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUlangActionPerformed
-        resetForm();
+        resetForm(); //reset isi form
     }//GEN-LAST:event_btnUlangActionPerformed
 
     /**
