@@ -473,7 +473,7 @@ private void loadData() { //method untuk memuat data
         txtCari.setText("");
     }
  
-private void cariData() {
+private void cariData() { //method untuk mencari sebuah resep dari dalam database
     String keyword = txtCari.getText(); // Ambil teks pencarian
 
     tableModel.setRowCount(0); // Clear existing data
