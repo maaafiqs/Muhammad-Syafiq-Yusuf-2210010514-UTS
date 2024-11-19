@@ -2,18 +2,32 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.*;
+import java.sql.*;
 
 /**
  *
  * @author ASUS
  */
 public class AplikasiResepMasakan extends javax.swing.JFrame {
+    
+    private Connection conn; // Koneksi variabel kedalam database
+    private DefaultTableModel tableModel; 
 
     /**
      * Creates new form AplikasiResepMasakan
      */
     public AplikasiResepMasakan() {
         initComponents();
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/resep_masakan", "root", ""); // Membuat Koneksi kedalam database
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Database connection error: " + e.getMessage());
+        }
+        tableModel = (DefaultTableModel) tableMasakan.getModel();
+        loadData(); // Load initial data from the database
     }
 
     /**
@@ -25,7 +39,6 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jCalendarBeanInfo1 = new com.toedter.calendar.JCalendarBeanInfo();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -43,7 +56,7 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
         btnHapus = new javax.swing.JButton();
         btnUlang = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableMasakan = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,14 +103,34 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
         jLabel5.setText("Teknik Memasak");
 
         btnTambah.setText("Tambah");
+        btnTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahActionPerformed(evt);
+            }
+        });
 
         btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnHapus.setText("Hapus");
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusActionPerformed(evt);
+            }
+        });
 
         btnUlang.setText("Ulang");
+        btnUlang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUlangActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableMasakan.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -123,9 +156,9 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(12);
+        jScrollPane1.setViewportView(tableMasakan);
+        if (tableMasakan.getColumnModel().getColumnCount() > 0) {
+            tableMasakan.getColumnModel().getColumn(0).setPreferredWidth(12);
         }
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -232,6 +265,36 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNamaMasakanActionPerformed
 
+    private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
+        btnTambah.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                tambahData();
+            }
+        });
+    }//GEN-LAST:event_btnTambahActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        btnEdit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                editData();
+            }
+        });
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+         btnHapus.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                hapusData();
+            }
+        });
+
+         loadData();
+    }//GEN-LAST:event_btnHapusActionPerformed
+
+    private void btnUlangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUlangActionPerformed
+        resetForm();
+    }//GEN-LAST:event_btnUlangActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -272,7 +335,6 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnTambah;
     private javax.swing.JButton btnUlang;
-    private com.toedter.calendar.JCalendarBeanInfo jCalendarBeanInfo1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -282,10 +344,99 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tableMasakan;
     private javax.swing.JTextField txtBahanMasakan;
     private javax.swing.JTextField txtJenisMasakan;
     private javax.swing.JTextField txtNamaMasakan;
     private javax.swing.JTextField txtTeknikMemasak;
     // End of variables declaration//GEN-END:variables
+ private void tambahData() {
+        String nama = txtNamaMasakan.getText();
+        String jenis = txtJenisMasakan.getText();
+        String bahan = txtBahanMasakan.getText();
+        String teknik = txtTeknikMemasak.getText();
+
+        try {
+            String sql = "INSERT INTO resep (nama_masakan, jenis_masakan, bahan_masakan, teknik_memasak) VALUES (?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nama);
+            stmt.setString(2, jenis);
+            stmt.setString(3, bahan);
+            stmt.setString(4, teknik);
+            stmt.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Data berhasil ditambahkan.");
+            loadData();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    }
+
+ private void editData() {
+        int selectedRow = tableMasakan.getSelectedRow();
+        if (selectedRow != -1) {
+            String id = tableMasakan.getValueAt(selectedRow, 0).toString();
+            String nama = txtNamaMasakan.getText();
+            String jenis = txtJenisMasakan.getText();
+            String bahan = txtBahanMasakan.getText();
+            String teknik = txtTeknikMemasak.getText();
+
+            try {
+                String sql = "UPDATE resep SET nama_masakan = ?, jenis_masakan = ?, bahan_masakan = ?, teknik_memasak = ? WHERE id = ?";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, nama);
+                stmt.setString(2, jenis);
+                stmt.setString(3, bahan);
+                stmt.setString(4, teknik);
+                stmt.setInt(5, Integer.parseInt(id));
+                stmt.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Data berhasil diubah.");
+                loadData();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+            }
+        }
+    } 
+
+private void hapusData() {
+        int selectedRow = tableMasakan.getSelectedRow();
+        if (selectedRow != -1) {
+            String id = tableMasakan.getValueAt(selectedRow, 0).toString();
+            try {
+                String sql = "DELETE FROM resep WHERE id = ?";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setInt(1, Integer.parseInt(id));
+                stmt.executeUpdate();
+                JOptionPane.showMessageDialog(this, "Data berhasil dihapus.");
+                loadData();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+            }
+        }
+    }
+
+private void loadData() {
+        tableModel.setRowCount(0); // Clear existing data
+        try {
+            String sql = "SELECT * FROM resep";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            int no = 1;
+            while (rs.next()) {
+                tableModel.addRow(new Object[]{
+                    no++, rs.getString("nama_masakan"), rs.getString("jenis_masakan"),
+                    rs.getString("bahan_masakan"), rs.getString("teknik_memasak")
+                });
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    }
+
+ private void resetForm() {
+        txtNamaMasakan.setText("");
+        txtJenisMasakan.setText("");
+        txtBahanMasakan.setText("");
+        txtTeknikMemasak.setText("");
+    }
+ 
 }
