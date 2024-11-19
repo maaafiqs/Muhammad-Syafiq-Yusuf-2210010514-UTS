@@ -397,7 +397,7 @@ public class AplikasiResepMasakan extends javax.swing.JFrame {
         }
     } 
 
-private void hapusData() {
+private void hapusData() { //method untuk menghapus data
         int selectedRow = tableMasakan.getSelectedRow();
         if (selectedRow != -1) {
             String id = tableMasakan.getValueAt(selectedRow, 0).toString();
