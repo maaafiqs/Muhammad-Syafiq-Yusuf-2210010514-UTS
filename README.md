@@ -1,4 +1,3 @@
-Aplikasi Resep Masakan
 Aplikasi Resep Masakan yang dibangun menggunakan NetBeans. Aplikasi ini memungkinkan pengguna untuk memasukkan, menyimpan, dan mencari data resep di dalam database. Aplikasi ini sederhana namun sangat berguna untuk mengelola resep secara efisien.
 
 Fitur
